@@ -21,7 +21,7 @@ let CircularProgress = React.createClass({
     muiTheme: React.PropTypes.object
   },
 
-  _getRelativeValue(){
+  _getRelativeValue() {
     let value = this.props.value;
     let min = this.props.min;
     let max = this.props.max;
@@ -33,15 +33,14 @@ let CircularProgress = React.createClass({
   },
 
   componentDidMount() {
-
     let wrapper = React.findDOMNode(this.refs.wrapper);
     let path = React.findDOMNode(this.refs.path);
 
     this._scalePath(path);
     this._rotateWrapper(wrapper);
-
   },
-  _scalePath(path, step){
+
+  _scalePath(path, step) {
     step = step || 0;
     step %= 3;
 
@@ -50,31 +49,24 @@ let CircularProgress = React.createClass({
     if (!this.isMounted()) return;
     if (this.props.mode != "indeterminate") return;
 
-
     if (step === 0) {
-
       path.style.strokeDasharray = "1, 200";
       path.style.strokeDashoffset = 0;
       path.style.transitionDuration = "0ms";
-
-    } else if (step == 1) {
-
+    }
+    else if (step == 1) {
       path.style.strokeDasharray = "89, 200";
       path.style.strokeDashoffset = -35;
       path.style.transitionDuration = "750ms";
-
-
-    } else {
-
+    }
+    else {
       path.style.strokeDasharray = "89,200";
       path.style.strokeDashoffset = -124;
       path.style.transitionDuration = "850ms";
-
     }
-
   },
-  _rotateWrapper(wrapper){
 
+  _rotateWrapper(wrapper) {
     setTimeout(this._rotateWrapper.bind(this, wrapper), 10050);
 
     if (!this.isMounted()) return;
@@ -82,7 +74,7 @@ let CircularProgress = React.createClass({
 
     wrapper.style.transform = null;
     wrapper.style.transform = "rotate(0deg)";
-      wrapper.style.transitionDuration = "0ms";
+    wrapper.style.transitionDuration = "0ms";
 
     setTimeout(() => {
       wrapper.style.transform = "rotate(1800deg)";
@@ -119,10 +111,8 @@ let CircularProgress = React.createClass({
         display: "inline-block",
         width: size,
         height: size,
-
       },
       wrapper: {
-
         width: size,
         height: size,
         margin: "5px",
@@ -146,10 +136,8 @@ let CircularProgress = React.createClass({
 
     if (this.props.mode == "determinate"){
       let relVal = this._getRelativeValue();
-      styles.path.transition = Transitions.create("all", "0.3s", null, "linear")
+      styles.path.transition = Transitions.create("all", "0.3s", null, "linear");
       styles.path.strokeDasharray = Math.round(relVal * 1.25) + ",200";
-    }else{
-
     }
 
     return styles;
@@ -167,7 +155,7 @@ let CircularProgress = React.createClass({
     let styles = this.getStyles(size || 1);
 
     return (
-      <div  {...other} style={this.mergeAndPrefix(styles.root, style)} >
+      <div {...other} style={this.mergeAndPrefix(styles.root, style)} >
         <div ref="wrapper" style={this.mergeAndPrefix(styles.wrapper, innerStyle)} >
           <svg style={this.mergeAndPrefix(styles.svg)} >
             <circle ref="path" style={this.mergeAndPrefix(styles.path)} cx="25" cy="25" r="20" fill="none" strokeWidth="2.5" strokeMiterlimit="10"/>

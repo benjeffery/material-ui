@@ -19,14 +19,29 @@ let MenuItem = React.createClass({
     disabled: React.PropTypes.bool,
     innerDivStyle: React.PropTypes.object,
     insetChildren: React.PropTypes.bool,
+    focusState: React.PropTypes.oneOf([
+      'none',
+      'focused',
+      'keyboard-focused'
+    ]),
     leftIcon: React.PropTypes.element,
     rightIcon: React.PropTypes.element,
-    secondaryText: React.PropTypes.node
+    secondaryText: React.PropTypes.node,
+    value: React.PropTypes.string
   },
 
   getDefaultProps() {
     return {
+      focusState: 'none'
     };
+  },
+
+  componentDidMount() {
+    this._applyFocusState();
+  },
+
+  componentDidUpdate() {
+    this._applyFocusState();
   },
 
   render() {
@@ -35,12 +50,14 @@ let MenuItem = React.createClass({
       checked,
       desktop,
       disabled,
+      focusState,
       innerDivStyle,
       insetChildren,
       leftIcon,
       rightIcon,
       secondaryText,
       style,
+      value,
       ...other
     } = this.props;
 
@@ -114,12 +131,17 @@ let MenuItem = React.createClass({
         innerDivStyle={mergedInnerDivStyles}
         insetChildren={insetChildren}
         leftIcon={styledLeftIcon}
+        ref="listItem"
         rightIcon={rightIconElement}
         style={mergedRootStyles}>
         {this.props.children}
         {secondaryTextElement}
       </ListItem>
     );
+  },
+
+  _applyFocusState() {
+    this.refs.listItem.applyFocusState(this.props.focusState);
   }
 });
 
